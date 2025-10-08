@@ -1,213 +1,384 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora Finiquito vs. Liquidación (ZLFN)</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            background-color: #f4f4f9;
-            color: #333;
-        }
-        .container {
-            max-width: 800px;
-            margin: auto;
-            background: #fff;
-            padding: 25px;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        }
-        h1 {
-            color: #0056b3;
-            text-align: center;
-            border-bottom: 2px solid #0056b3;
-            padding-bottom: 10px;
-        }
-        h2 {
-            margin-top: 25px;
-            color: #28a745;
-            border-bottom: 1px dashed #ccc;
-            padding-bottom: 5px;
-        }
-        label {
-            display: block;
-            margin-top: 10px;
-            font-weight: bold;
-        }
-        input[type="number"], input[type="date"] {
-            width: 100%;
-            padding: 10px;
-            margin-top: 5px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-        button {
-            background-color: #007bff;
-            color: white;
-            padding: 12px 15px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            margin-top: 25px;
-            width: 100%;
-            font-size: 18px;
-            transition: background-color 0.3s;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-        .result-section {
-            margin-top: 30px;
-            padding: 20px;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            background-color: #e9ecef;
-        }
-        .scenario-box {
-            border: 1px solid #007bff;
-            padding: 15px;
-            margin-top: 15px;
-            border-radius: 6px;
-            background-color: #f8faff;
-        }
-        .scenario-box h3 {
-            color: #007bff;
-            margin-top: 0;
-        }
-        .amount {
-            font-weight: bold;
-            color: #d9534f;
-            font-size: 1.2em;
-        }
-        .note {
-            font-size: 0.85em;
-            color: #6c757d;
-            margin-top: 20px;
-        }
-        .highlight {
-            font-weight: bold;
-            color: #007bff;
-        }
-    </style>
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calculadora Finiquito vs. Liquidación (MX 2025)</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <header class="header-section">
+        <h1>Calculadora Finiquito y Liquidación (MX 2025)</h1>
+        <p class="sub">
+          Cálculo para Ciudad Juárez (ZLFN: $419.88 MXN).
+          <strong>Prima vacacional NO incluida</strong> (LFT art. 80 la
+          reconoce; aquí se excluye por indicación).
+        </p>
+      </header>
 
-<div class="container">
-    <h1>Calculadora de Despido (Acuerdo vs. Injustificado)</h1>
-    <p>Cálculo para Ciudad Juárez (ZLFN: <span class="highlight">$419.88 MXN</span>). La prima vacacional ha sido excluida.</p>
+      <section class="form-section">
+        <h2 class="section-title">Datos del Trabajador</h2>
 
-    <label for="salarioDiario">Salario Diario Bruto (MXN):</label>
-    <input type="number" id="salarioDiario" value="500" min="0" required>
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="salarioDiario">Salario diario (MXN)</label>
+            <input
+              type="number"
+              id="salarioDiario"
+              min="0"
+              step="0.01"
+              value="500"
+              placeholder="Ej: 500.00"
+            />
+          </div>
 
-    <label for="fechaIngreso">Fecha de Ingreso:</label>
-    <input type="date" id="fechaIngreso" value="2022-01-01" required>
+          <div class="form-group">
+            <label for="diasAguinaldo">Aguinaldo anual (días)</label>
+            <input
+              type="number"
+              id="diasAguinaldo"
+              min="15"
+              step="1"
+              value="15"
+              placeholder="Mínimo 15"
+            />
+          </div>
 
-    <label for="fechaBaja">Fecha de Baja (Hoy):</label>
-    <input type="date" id="fechaBaja" required>
+          <div class="form-group">
+            <label for="fechaIngreso">Fecha de ingreso</label>
+            <input type="date" id="fechaIngreso" value="2022-01-01" />
+          </div>
 
-    <label for="diasAguinaldo">Días de Aguinaldo por Año (Mínimo 15):</label>
-    <input type="number" id="diasAguinaldo" value="15" min="15" required>
-    
-    <label for="diasVacacionesPendientes">Días de Vacaciones Pendientes de Disfrutar:</label>
-    <input type="number" id="diasVacacionesPendientes" value="0" min="0" required>
+          <div class="form-group">
+            <label for="fechaBaja">Fecha de baja</label>
+            <input type="date" id="fechaBaja" />
+          </div>
 
-    <button onclick="calcular()">Calcular Montos</button>
-
-    <div class="result-section">
-        <h2>Desglose de Componentes Base</h2>
-        <p>Años completos de servicio: <span id="aniosCompletos">0</span></p>
-        <p>Proporcional de Aguinaldo: <span id="desgloseAguinaldo">$0.00</span></p>
-        <p>Vacaciones no tomadas (solo días, sin prima): <span id="desgloseVacPrima">$0.00</span></p>
-        <p>Prima de Antigüedad (12 días por año): <span id="desglosePrimaAntiguedad">$0.00</span></p>
-        <hr>
-
-        <div class="scenario-box">
-            <h3>1. **FINIQUITO** (Monto por Mutuo Acuerdo)</h3>
-            <p>Componentes: Proporcionales (Aguinaldo + Días de Vacaciones) + <span class="highlight">Prima de Antigüedad (Aplica siempre por el acuerdo)</span>.</p>
-            <p class="result-summary">**Monto Total Estimado (Base de Acuerdo):** <span id="resultadoFiniquitoAcuerdo" class="amount">$0.00 MXN</span></p>
-            <p class="note">*(Este es el monto mínimo legal que le corresponde al terminar la relación por mutuo acuerdo).*</p>
+          <div class="form-group full-width">
+            <label for="diasVacPend"
+              >Vacaciones pendientes por pagar (días)</label
+            >
+            <input
+              type="number"
+              id="diasVacPend"
+              min="0"
+              step="0.5"
+              value="0"
+              placeholder="Solo días no gozados"
+            />
+            <div class="hint">
+              Solo los días que no ha gozado. La prima vacacional (mín. 25%) no
+              está siendo considerada en el monto final.
+            </div>
+          </div>
         </div>
 
-        <div class="scenario-box">
-            <h3>2. **LIQUIDACIÓN** (Monto Máximo de Referencia)</h3>
-            <p>Componentes: Finiquito Base + <span class="highlight">Indemnización Constitucional (3 meses de salario)</span>.</p>
-            <p>Indemnización Constitucional (3 meses): <span id="desgloseIndemBasica" class="highlight">$0.00</span></p>
-            <p class="result-summary">**Monto Total Estimado (Referencia Máxima):** <span id="resultadoLiquidacionBasica" class="amount">$0.00 MXN</span></p>
-            <p class="note">*(Este es el monto que se usaría si la separación fuera por despido injustificado).*</p>
+        <div class="checkbox-section">
+          <div class="checkbox-group">
+            <input type="checkbox" id="inc20" />
+            <label for="inc20"
+              >Incluir <strong>20 días por año</strong> (Art. 50 LFT)</label
+            >
+            <span class="hint">— apagado por defecto</span>
+          </div>
+          <div class="help-link">
+            ¿Cuándo procede? 👉
+            <a
+              href="https://mexico.justia.com/federales/leyes/ley-federal-del-trabajo/titulo-segundo/capitulo-iv/"
+              target="_blank"
+              rel="noopener"
+            >
+              Consulta Art. 50 LFT (Justia)
+            </a>
+          </div>
         </div>
 
-        <p class="note">* **Aviso:** Todos los montos son <span class="highlight">brutos</span> (antes de impuestos/deducciones). Consulte a PROFEDET para el cálculo oficial.</p>
+        <div class="actions">
+          <button class="primary" id="btnCalc">
+            <span>📊</span>
+            Calcular
+          </button>
+          <button class="ghost" id="btnClear">
+            <span>🗑️</span>
+            Limpiar
+          </button>
+        </div>
+      </section>
+
+      <section class="results-section">
+        <h2 class="section-title">Resultados del Cálculo</h2>
+
+        <div class="info-cards">
+          <div class="info-card">
+            <h3>📊 Datos de Servicio</h3>
+            <div class="data-row">
+              <span>Años completos</span>
+              <strong id="aniosCompletos">0</strong>
+            </div>
+            <div class="data-row">
+              <span>Días proporcionales año en curso</span>
+              <strong id="diasAnio">0</strong>
+            </div>
+          </div>
+
+          <div class="info-card">
+            <h3>💰 Proporcionales y Prima de Antigüedad</h3>
+            <div class="data-row">
+              <span>Aguinaldo proporcional</span>
+              <strong id="aguinaldo">$0.00</strong>
+            </div>
+            <div class="data-row">
+              <span>Vacaciones (días pendientes)</span>
+              <strong id="vac">$0.00</strong>
+            </div>
+            <div class="data-row">
+              <span>Prima de antigüedad (Base total)</span>
+              <strong id="primaAntiguedadTotal">$0.00</strong>
+            </div>
+          </div>
+        </div>
+
+        <div class="main-results">
+          <div class="result-card finiquito-card">
+            <div class="card-header">
+              <h3>✅ FINIQUITO</h3>
+              <span class="card-subtitle"
+                >Monto Mínimo por Renuncia o Mutuo Acuerdo</span
+              >
+            </div>
+            <div class="calculation-details">
+              <div class="data-row">
+                <span
+                  >Suma de Proporcionales + Prima de Antigüedad (si
+                  aplica)</span
+                >
+                <strong id="subTotalFiniquito">$0.00</strong>
+              </div>
+            </div>
+            <div class="total-amount" id="totFiniquito">$0.00 MXN</div>
+            <div class="card-note">
+              La <strong>prima de antigüedad en renuncia</strong> solo aplica si
+              hay <strong>≥ 15 años</strong> de servicio; en despido aplica
+              siempre (tope $2 \times$ SM).
+            </div>
+          </div>
+
+          <div class="result-card liquidacion-card">
+            <div class="card-header">
+              <h3>⚖️ LIQUIDACIÓN</h3>
+              <span class="card-subtitle"
+                >Referencia Máxima / Despido Injustificado</span
+              >
+            </div>
+            <div class="calculation-details">
+              <div class="data-row">
+                <span>Finiquito Base (Total)</span>
+                <strong id="baseFiniquito">$0.00</strong>
+              </div>
+              <div class="data-row">
+                <span>Indemnización 3 meses (90 días)</span>
+                <strong id="indem3">$0.00</strong>
+              </div>
+              <div class="data-row">
+                <span>20 días por año (opcional)</span>
+                <strong id="v20">$0.00</strong>
+              </div>
+            </div>
+            <div class="total-amount" id="totLiquida">$0.00 MXN</div>
+            <div class="card-note">
+              Los <strong>20 días por año</strong> solo proceden bajo supuestos
+              específicos (p. ej., negativa de reinstalación tras juicio, Art.
+              50 LFT).
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <footer class="footer-section">
+        <p class="disclaimer">
+          ⚠️ <strong>Cálculo informativo.</strong> Revisa tu contrato/CPR y
+          consulta a un profesional o PROFEDET para tu caso específico.
+        </p>
+      </footer>
     </div>
-</div>
+    <script>
+      // === Parámetros fijos (Ciudad Juárez) ===
+      const SM_ZLFN = 419.88; // Salario Mínimo Diario Zona Libre Frontera Norte (editable)
+      const PRIMA_VAC_PCT = 0; // 0% por indicación del usuario (no se incluye prima vacacional)
 
-<script>
-    // Fijo para Ciudad Juárez (Zona Libre de la Frontera Norte)
-    const SALARIO_MINIMO_DIARIO_GENERAL = 419.88;
+      // Helpers
+      const fmt = (n) =>
+        new Intl.NumberFormat('es-MX', {
+          style: 'currency',
+          currency: 'MXN',
+        }).format(n);
+      const diasEntre = (a, b) =>
+        Math.max(0, Math.floor((b - a) / (1000 * 60 * 60 * 24)));
+      const inicioDeAnio = (d) => new Date(d.getFullYear(), 0, 1);
 
-    // Inicializar la fecha de baja a la fecha actual
-    document.getElementById('fechaBaja').valueAsDate = new Date();
-    
-    function calcular() {
+      // La función calcular() ahora incluye la lógica para GUARDAR en localStorage
+      function calcular() {
+        // Entradas
         const sd = parseFloat(document.getElementById('salarioDiario').value);
-        const fechaIngreso = new Date(document.getElementById('fechaIngreso').value + 'T00:00:00');
-        const fechaBaja = new Date(document.getElementById('fechaBaja').value + 'T00:00:00');
-        const diasAguinaldoAnual = parseInt(document.getElementById('diasAguinaldo').value);
-        const diasVacPendientes = parseInt(document.getElementById('diasVacacionesPendientes').value);
-        const smd = SALARIO_MINIMO_DIARIO_GENERAL;
+        const diasAguinaldo = parseFloat(
+          document.getElementById('diasAguinaldo').value
+        );
+        const fechaIngreso = new Date(
+          document.getElementById('fechaIngreso').value + 'T00:00:00'
+        );
+        const fechaBaja = new Date(
+          document.getElementById('fechaBaja').value + 'T00:00:00'
+        );
+        const diasVacPend = parseFloat(
+          document.getElementById('diasVacPend').value || 0
+        );
+        const inc20 = document.getElementById('inc20').checked;
 
-        if (isNaN(sd) || isNaN(diasAguinaldoAnual) || isNaN(diasVacPendientes) || fechaIngreso >= fechaBaja) {
-            alert("Por favor, ingrese valores válidos y asegúrese de que la fecha de ingreso sea anterior a la de baja.");
-            return;
+        if (!sd || !diasAguinaldo || !(fechaIngreso < fechaBaja)) {
+          alert(
+            'Verifica salario, aguinaldo (≥15) y que la fecha de ingreso sea anterior a la de baja.'
+          );
+          return;
         }
 
-        // --- CÁLCULO DE ANTIGÜEDAD Y DÍAS TRABAJADOS ---
-        const aniosCompletos = Math.floor((fechaBaja - fechaIngreso) / (1000 * 60 * 60 * 24 * 365.25));
-        const inicioAnioBaja = new Date(fechaBaja.getFullYear(), 0, 1);
-        const diasTrabajadosAnio = Math.ceil((fechaBaja - inicioAnioBaja) / (1000 * 60 * 60 * 24)) + 1;
-        
-        // --- 1. PROPORCIONAL DE AGUINALDO (BASE) ---
-        const aguinaldoProporcional = (diasAguinaldoAnual / 365) * diasTrabajadosAnio * sd;
+        // Antigüedad total y años completos (base 365 días)
+        const totalDias = diasEntre(fechaIngreso, fechaBaja);
+        const aniosCompletos = Math.floor(totalDias / 365);
 
-        // --- 2. VACACIONES PENDIENTES (SIN PRIMA VACACIONAL) ---
-        const pagoVacacionesPendientes = diasVacPendientes * sd;
-        const totalVacPrima = pagoVacacionesPendientes; // Solo días de salario
-        
-        // --- 3. PRIMA DE ANTIGÜEDAD (Aplica SIEMPRE por ser mutuo acuerdo) ---
-        let salarioTopePrimaAntiguedad = smd * 2;
-        let sdUtilizar = sd > salarioTopePrimaAntiguedad ? salarioTopePrimaAntiguedad : sd;
-        const primaAntiguedadTotal = aniosCompletos * 12 * sdUtilizar; // Se paga siempre en este caso
+        // Días trabajados del año en curso (desde 1 de enero hasta fechaBaja)
+        const diasAnio = diasEntre(inicioDeAnio(fechaBaja), fechaBaja);
 
-        // --- CÁLCULO ESCENARIO 1: FINIQUITO BASE (Acuerdo con patrón) ---
-        // Incluye: Aguinaldo Prop. + Vacaciones Prop. (días) + Prima de Antigüedad
-        const finiquitoAcuerdoTotal = aguinaldoProporcional + totalVacPrima + primaAntiguedadTotal;
+        // --- Proporcionales ---
+        const aguinaldoProp = sd * (diasAguinaldo * (diasAnio / 365));
+        const vacMonto = diasVacPend * sd;
+        const primaVac = vacMonto * PRIMA_VAC_PCT;
 
-        // --- CÁLCULO ESCENARIO 2: LIQUIDACIÓN (Máxima - Despido Injustificado) ---
-        // Se usa para tener un tope de negociación.
-        
-        // Indemnización Constitucional (3 meses)
-        const smi = sd * 30.4;
-        const indemnizacionConstitucional = smi * 3;
+        // --- Prima de antigüedad (art. 162 LFT) ---
+        const salarioTope = Math.min(sd, SM_ZLFN * 2);
+        const primaAntig = 12 * aniosCompletos * salarioTope;
 
-        // Liquidación Total: Finiquito Base + 3 meses
-        const liquidacionBasicaTotal = finiquitoAcuerdoTotal + indemnizacionConstitucional;
+        // --- FINIQUITO (Renuncia/Mutuo acuerdo) ---
+        const paRenuncia = aniosCompletos >= 15 ? primaAntig : 0;
+        const subTotalFiniquito =
+          aguinaldoProp + vacMonto + primaVac + paRenuncia;
+        const finiquitoTotal = subTotalFiniquito;
 
-        // --- MOSTRAR RESULTADOS ---
+        // --- LIQUIDACIÓN (Despido injustificado) ---
+        const indem3 = 90 * sd;
+        const veintePorAnio = inc20 ? 20 * aniosCompletos * sd : 0;
+        const liquidaTotal =
+          indem3 +
+          veintePorAnio +
+          primaAntig +
+          aguinaldoProp +
+          vacMonto +
+          primaVac;
+
+        // Pintar en UI
         document.getElementById('aniosCompletos').textContent = aniosCompletos;
-        document.getElementById('desgloseAguinaldo').textContent = `$${aguinaldoProporcional.toFixed(2)}`;
-        document.getElementById('desgloseVacPrima').textContent = `$${totalVacPrima.toFixed(2)}`;
-        document.getElementById('desglosePrimaAntiguedad').textContent = `$${primaAntiguedadTotal.toFixed(2)} (${aniosCompletos} años completos)`;
+        document.getElementById('diasAnio').textContent = diasAnio;
 
-        // Escenario 1
-        document.getElementById('resultadoFiniquitoAcuerdo').textContent = `$${finiquitoAcuerdoTotal.toFixed(2)} MXN`;
+        document.getElementById('aguinaldo').textContent = fmt(aguinaldoProp);
+        document.getElementById('vac').textContent = fmt(vacMonto);
+        document.getElementById('primaAntiguedadTotal').textContent =
+          fmt(primaAntig);
 
-        // Escenario 2
-        document.getElementById('desgloseIndemBasica').textContent = `$${indemnizacionConstitucional.toFixed(2)}`;
-        document.getElementById('resultadoLiquidacionBasica').textContent = `$${liquidacionBasicaTotal.toFixed(2)} MXN`;
-    }
-</script>
+        document.getElementById('subTotalFiniquito').textContent =
+          fmt(subTotalFiniquito);
+        document.getElementById('totFiniquito').textContent =
+          fmt(finiquitoTotal) + ' MXN';
 
-</body>
+        document.getElementById('baseFiniquito').textContent =
+          fmt(finiquitoTotal);
+        document.getElementById('indem3').textContent = fmt(indem3);
+        document.getElementById('v20').textContent = inc20
+          ? fmt(veintePorAnio)
+          : '— (opción desactivada)';
+        document.getElementById('totLiquida').textContent =
+          fmt(liquidaTotal) + ' MXN';
+
+        // === LÓGICA DE GUARDADO EN LOCAL STORAGE ===
+        const datosGuardar = {
+          salarioDiario: sd,
+          diasAguinaldo: diasAguinaldo,
+          fechaIngreso: document.getElementById('fechaIngreso').value,
+          fechaBaja: document.getElementById('fechaBaja').value,
+          diasVacPend: diasVacPend,
+          inc20: inc20,
+        };
+        localStorage.setItem('ultimoCalculoMX', JSON.stringify(datosGuardar));
+        // ===========================================
+      }
+
+      function limpiar() {
+        document.getElementById('salarioDiario').value = 500;
+        document.getElementById('diasAguinaldo').value = 15;
+        document.getElementById('fechaIngreso').value = '2022-01-01';
+        document.getElementById('fechaBaja').valueAsDate = new Date();
+        document.getElementById('diasVacPend').value = 0;
+        document.getElementById('inc20').checked = false;
+        [
+          'aniosCompletos',
+          'diasAnio',
+          'aguinaldo',
+          'vac',
+          'primaAntiguedadTotal',
+          'subTotalFiniquito',
+          'baseFiniquito',
+          'indem3',
+          'v20',
+        ].forEach(
+          (id) =>
+            (document.getElementById(id).textContent =
+              id === 'v20'
+                ? '— (opción desactivada)'
+                : id === 'aniosCompletos' || id === 'diasAnio'
+                ? '0'
+                : '$0.00')
+        );
+        document.getElementById('totFiniquito').textContent = '$0.00 MXN';
+        document.getElementById('totLiquida').textContent = '$0.00 MXN';
+
+        // Opcional: limpiar localStorage al presionar el botón de limpiar
+        localStorage.removeItem('ultimoCalculoMX');
+      }
+
+      // === LÓGICA DE CARGA DESDE LOCAL STORAGE ===
+      function cargarCalculoGuardado() {
+        const ultimoCalculo = localStorage.getItem('ultimoCalculoMX');
+        const hoy = new Date();
+
+        if (ultimoCalculo) {
+          const data = JSON.parse(ultimoCalculo);
+
+          // Cargar valores al formulario
+          document.getElementById('salarioDiario').value = data.salarioDiario;
+          document.getElementById('diasAguinaldo').value = data.diasAguinaldo;
+          document.getElementById('fechaIngreso').value = data.fechaIngreso;
+          document.getElementById('fechaBaja').value = data.fechaBaja;
+          document.getElementById('diasVacPend').value = data.diasVacPend;
+          document.getElementById('inc20').checked = data.inc20;
+
+          // Ejecutar el cálculo automáticamente para mostrar los resultados
+          calcular();
+        } else {
+          // Si no hay cálculo guardado, solo inicializa la fecha de baja a hoy
+          document.getElementById('fechaBaja').valueAsDate = hoy;
+        }
+      }
+
+      document.getElementById('btnCalc').addEventListener('click', calcular);
+      document.getElementById('btnClear').addEventListener('click', limpiar);
+
+      // Ejecutar la carga al iniciar
+      window.addEventListener('load', cargarCalculoGuardado);
+    </script>
+  </body>
 </html>
