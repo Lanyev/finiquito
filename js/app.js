@@ -302,13 +302,22 @@ function renderHistorial() {
   try {
     const historial = JSON.parse(localStorage.getItem('historialCalculos') || '[]');
     const container = document.getElementById('historialCalculos');
+    const noHistorialMsg = document.getElementById('noHistorialMsg');
     
     if (historial.length === 0) {
-      container.innerHTML = '<p class="historial-vacio">No hay cálculos guardados aún.</p>';
+      if (noHistorialMsg) {
+        noHistorialMsg.style.display = 'block';
+      }
+      container.innerHTML = '<p class="hint" id="noHistorialMsg">Aún no hay cálculos guardados.</p>';
       return;
     }
     
-    let html = '<div class="historial-lista">';
+    // Ocultar mensaje de "no hay historial"
+    if (noHistorialMsg) {
+      noHistorialMsg.style.display = 'none';
+    }
+    
+    let html = '<ol class="historial-lista">';
     
     historial.forEach((calculo, index) => {
       const fecha = new Date(calculo.fechaBaja).toLocaleDateString('es-MX');
@@ -318,11 +327,21 @@ function renderHistorial() {
       });
       
       html += `
-        <div class="historial-item">
+        <li class="historial-item">
           <div class="historial-header">
             <span class="historial-fecha">${fecha}</span>
             <span class="historial-hora">${hora}</span>
             ${calculo.incluirPrimaVac ? '<span class="prima-vac-badge">Con Prima Vac.</span>' : ''}
+          </div>
+          <div class="historial-datos">
+            <div class="historial-dato">
+              <span>Salario Diario:</span>
+              <strong>${fmt(calculo.salarioDiario)}</strong>
+            </div>
+            <div class="historial-dato">
+              <span>Fecha de Baja:</span>
+              <strong>${fecha}</strong>
+            </div>
           </div>
           <div class="historial-resultados">
             <div class="historial-resultado">
@@ -334,17 +353,67 @@ function renderHistorial() {
               <strong>${fmt(calculo.liquidaTotal)}</strong>
             </div>
           </div>
-        </div>
+          <div class="historial-acciones">
+            <button class="btn-cargar" onclick="cargarDesdeHistorial(${index})">
+              <span>🔄</span>
+              Cargar
+            </button>
+          </div>
+        </li>
       `;
     });
     
-    html += '</div>';
+    html += '</ol>';
     container.innerHTML = html;
     
   } catch (error) {
     console.error('Error al renderizar historial:', error);
     document.getElementById('historialCalculos').innerHTML = 
       '<p class="historial-error">Error al cargar el historial.</p>';
+  }
+}
+
+/**
+ * Carga un cálculo específico desde el historial
+ * @param {number} index - Índice del cálculo en el historial
+ */
+function cargarDesdeHistorial(index) {
+  try {
+    const historial = JSON.parse(localStorage.getItem('historialCalculos') || '[]');
+    
+    if (index < 0 || index >= historial.length) {
+      console.error('Índice de historial inválido:', index);
+      return;
+    }
+    
+    const calculo = historial[index];
+    
+    // Cargar datos del formulario
+    document.getElementById('salarioDiario').value = calculo.salarioDiario;
+    document.getElementById('diasAguinaldo').value = calculo.diasAguinaldo || 15;
+    document.getElementById('fechaIngreso').value = calculo.fechaIngreso;
+    document.getElementById('fechaBaja').value = calculo.fechaBaja;
+    document.getElementById('diasVacPend').value = calculo.diasVacPend || 0;
+    document.getElementById('inc20').checked = calculo.inc20 || false;
+    document.getElementById('incluirPrimaVac').checked = calculo.incluirPrimaVac || false;
+    
+    // Ejecutar el cálculo automáticamente
+    calcular();
+    
+    // Actualizar la leyenda de Prima Vacacional
+    actualizarLeyendaPrimaVac(calculo.incluirPrimaVac || false);
+    
+    console.log(`Cálculo del historial cargado: índice ${index}`);
+    
+    // Scroll suave hacia arriba para mostrar los resultados
+    document.querySelector('.results-section').scrollIntoView({ 
+      behavior: 'smooth', 
+      block: 'start' 
+    });
+    
+  } catch (error) {
+    console.error('Error al cargar desde historial:', error);
+    alert('Error al cargar el cálculo del historial. Por favor, inténtalo de nuevo.');
   }
 }
 
