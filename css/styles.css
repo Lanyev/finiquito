@@ -734,3 +734,142 @@ input:valid {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--primary-dark);
 }
+
+/* Estilo para la nota específica de Proporcionales (Prima Vacacional) */
+.card-note-proporcionales {
+  font-size: 0.875rem;
+  line-height: 1.5;
+  padding: 1rem;
+  margin-top: 1rem;
+  background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%); /* Fondo rojo/claro */
+  color: var(--danger); /* Color de texto rojo */
+  border-radius: var(--radius-md);
+  border-left: 4px solid var(--danger); /* Borde lateral rojo */
+  font-weight: 500;
+}
+
+/* Estilos para el historial de cálculos */
+.historial-section {
+  padding: 2.5rem;
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  border-top: 1px solid var(--border-light);
+}
+
+.historial-container {
+  margin-top: 1.5rem;
+}
+
+.historial-vacio {
+  text-align: center;
+  color: var(--text-muted);
+  font-style: italic;
+  padding: 2rem;
+  background: var(--bg-accent);
+  border-radius: var(--radius-lg);
+  border: 2px dashed var(--border-light);
+}
+
+.historial-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.historial-item {
+  background: var(--bg-secondary);
+  border: 2px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition);
+}
+
+.historial-item:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--primary);
+}
+
+.historial-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.historial-fecha {
+  font-weight: 700;
+  color: var(--text-primary);
+  font-size: 1.1rem;
+}
+
+.historial-hora {
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+}
+
+.prima-vac-badge {
+  background: linear-gradient(135deg, var(--success) 0%, #34d399 100%);
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.historial-resultados {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.historial-resultado {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem;
+  background: var(--bg-accent);
+  border-radius: var(--radius-md);
+}
+
+.historial-resultado span {
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.historial-resultado strong {
+  color: var(--text-primary);
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.historial-error {
+  text-align: center;
+  color: var(--danger);
+  font-weight: 500;
+  padding: 2rem;
+  background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+  border-radius: var(--radius-lg);
+  border: 2px solid #fecaca;
+}
+
+/* Responsive para historial */
+@media (max-width: 768px) {
+  .historial-section {
+    padding: 1.5rem;
+  }
+  
+  .historial-resultados {
+    grid-template-columns: 1fr;
+  }
+  
+  .historial-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+}
