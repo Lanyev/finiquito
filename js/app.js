@@ -23,6 +23,64 @@ const fmt = (n) =>
   }).format(n);
 
 /**
+ * Muestra un mensaje de error en la interfaz
+ * @param {string} elementoId - ID del elemento donde mostrar el error
+ * @param {string} mensaje - Mensaje de error a mostrar
+ */
+function mostrarError(elementoId, mensaje) {
+  const elemento = document.getElementById(elementoId);
+  if (elemento) {
+    if (elementoId === 'errorGeneral') {
+      elemento.style.display = 'block';
+      document.getElementById('errorGeneralText').textContent = mensaje;
+    } else {
+      elemento.style.display = 'block';
+      elemento.textContent = mensaje;
+    }
+  }
+}
+
+/**
+ * Limpia todos los mensajes de error
+ */
+function limpiarErrores() {
+  const elementosError = [
+    'errorGeneral',
+    'errorFechaIngreso', 
+    'errorFechaBaja'
+  ];
+  
+  elementosError.forEach(id => {
+    const elemento = document.getElementById(id);
+    if (elemento) {
+      elemento.style.display = 'none';
+    }
+  });
+}
+
+/**
+ * Oculta los resultados cuando hay errores de validación
+ */
+function ocultarResultados() {
+  const resultados = document.querySelector('.results-section');
+  if (resultados) {
+    resultados.style.opacity = '0.5';
+    resultados.style.pointerEvents = 'none';
+  }
+}
+
+/**
+ * Muestra los resultados cuando la validación es exitosa
+ */
+function mostrarResultados() {
+  const resultados = document.querySelector('.results-section');
+  if (resultados) {
+    resultados.style.opacity = '1';
+    resultados.style.pointerEvents = 'auto';
+  }
+}
+
+/**
  * Calcula los días entre dos fechas
  * @param {Date} a - Fecha inicial
  * @param {Date} b - Fecha final
@@ -59,13 +117,38 @@ function calcular() {
   const inc20 = document.getElementById('inc20').checked;
   const incluirPrimaVac = document.getElementById('incluirPrimaVac').checked;
 
+  // Limpiar errores previos
+  limpiarErrores();
+
   // Validación de datos
-  if (!sd || !diasAguinaldo || !(fechaIngreso < fechaBaja)) {
-    alert(
-      'Verifica salario, aguinaldo (≥15) y que la fecha de ingreso sea anterior a la de baja.'
-    );
+  let hayErrores = false;
+
+  if (!sd || sd <= 0) {
+    mostrarError('errorGeneral', 'El salario diario debe ser mayor a 0.');
+    hayErrores = true;
+  }
+
+  if (!diasAguinaldo || diasAguinaldo < 15) {
+    mostrarError('errorGeneral', 'El aguinaldo anual debe ser de al menos 15 días.');
+    hayErrores = true;
+  }
+
+  if (!fechaIngreso || !fechaBaja) {
+    mostrarError('errorGeneral', 'Debes seleccionar ambas fechas (ingreso y baja).');
+    hayErrores = true;
+  } else if (fechaIngreso >= fechaBaja) {
+    mostrarError('errorFechaIngreso', 'La fecha de ingreso debe ser anterior a la fecha de baja.');
+    mostrarError('errorFechaBaja', 'La fecha de baja debe ser posterior a la fecha de ingreso.');
+    hayErrores = true;
+  }
+
+  if (hayErrores) {
+    ocultarResultados();
     return;
   }
+
+  // Mostrar resultados si la validación es exitosa
+  mostrarResultados();
 
   // Antigüedad total y años completos (base 365 días)
   const totalDias = diasEntre(fechaIngreso, fechaBaja);
@@ -244,6 +327,12 @@ function limpiar() {
 
   document.getElementById('totFiniquito').textContent = '$0.00 MXN';
   document.getElementById('totLiquida').textContent = '$0.00 MXN';
+
+  // Limpiar errores
+  limpiarErrores();
+  
+  // Mostrar resultados (restaurar visibilidad)
+  mostrarResultados();
 
   // Limpiar localStorage
   localStorage.removeItem('ultimoCalculoMX');

@@ -716,6 +716,53 @@ input:valid {
   border-color: var(--success);
 }
 
+/* Mensajes de error */
+.error-message {
+  color: var(--danger);
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+  background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+  border-radius: var(--radius-md);
+  border-left: 4px solid var(--danger);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.error-container {
+  margin: 1rem 0;
+}
+
+.error-message-general {
+  background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+  color: var(--danger);
+  padding: 1rem;
+  border-radius: var(--radius-lg);
+  border: 2px solid #fecaca;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-weight: 600;
+  box-shadow: var(--shadow-sm);
+}
+
+.error-message-general span:first-child {
+  font-size: 1.25rem;
+}
+
+/* Estados de error en inputs */
+.input-error {
+  border-color: var(--danger) !important;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1) !important;
+}
+
+.input-success {
+  border-color: var(--success) !important;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1) !important;
+}
+
 /* Scrollbar personalizado */
 ::-webkit-scrollbar {
   width: 8px;

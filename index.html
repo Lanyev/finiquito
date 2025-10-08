@@ -3,8 +3,14 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Calculadora Finiquito vs. Liquidación (MX 2025)</title>
-     <link rel="stylesheet" href="css/styles.css" />
+    <title>Calculadora de Finiquito y Liquidación LFT México 2025 | Ciudad Juárez</title>
+    <meta name="description" content="Calculadora gratuita de finiquito y liquidación según LFT México 2025. Cálculo para Ciudad Juárez con salario mínimo ZLFN. Incluye prima vacacional, aguinaldo y prima de antigüedad." />
+    <meta name="keywords" content="calculadora finiquito, liquidación LFT, México 2025, Ciudad Juárez, salario mínimo, prima vacacional, aguinaldo, prima antigüedad, despido, renuncia" />
+    <meta name="author" content="Calculadora Finiquito MX" />
+    <meta property="og:title" content="Calculadora de Finiquito y Liquidación LFT México 2025" />
+    <meta property="og:description" content="Calculadora gratuita para calcular finiquitos y liquidaciones según la Ley Federal del Trabajo de México 2025." />
+    <meta property="og:type" content="website" />
+    <link rel="stylesheet" href="css/styles.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -38,7 +44,10 @@
               step="0.01"
               value="500"
               placeholder="Ej: 500.00"
+              aria-describedby="salarioDiario-help"
+              required
             />
+            <div id="salarioDiario-help" class="hint">Ingresa tu salario diario en pesos mexicanos</div>
           </div>
 
           <div class="form-group">
@@ -50,17 +59,35 @@
               step="1"
               value="15"
               placeholder="Mínimo 15"
+              aria-describedby="diasAguinaldo-help"
+              required
             />
+            <div id="diasAguinaldo-help" class="hint">Mínimo 15 días según la LFT</div>
           </div>
 
           <div class="form-group">
             <label for="fechaIngreso">Fecha de ingreso</label>
-            <input type="date" id="fechaIngreso" value="2022-01-01" />
+            <input 
+              type="date" 
+              id="fechaIngreso" 
+              value="2022-01-01"
+              aria-describedby="fechaIngreso-help errorFechaIngreso"
+              required
+            />
+            <div id="fechaIngreso-help" class="hint">Fecha en que comenzaste a trabajar</div>
+            <div id="errorFechaIngreso" class="error-message" style="display: none;" role="alert"></div>
           </div>
 
           <div class="form-group">
             <label for="fechaBaja">Fecha de baja</label>
-            <input type="date" id="fechaBaja" />
+            <input 
+              type="date" 
+              id="fechaBaja"
+              aria-describedby="fechaBaja-help errorFechaBaja"
+              required
+            />
+            <div id="fechaBaja-help" class="hint">Fecha en que terminó la relación laboral</div>
+            <div id="errorFechaBaja" class="error-message" style="display: none;" role="alert"></div>
           </div>
 
           <div class="form-group full-width">
@@ -108,15 +135,28 @@
           </div>
         </div>
 
+        <div id="errorGeneral" class="error-container" style="display: none;">
+          <div class="error-message-general">
+            <span>⚠️</span>
+            <span id="errorGeneralText"></span>
+          </div>
+        </div>
+
         <div class="actions">
-          <button class="primary" id="btnCalc">
+          <button class="primary" id="btnCalc" aria-describedby="btnCalc-help">
             <span>📊</span>
             Calcular
           </button>
-          <button class="ghost" id="btnClear">
+          <button class="ghost" id="btnClear" aria-describedby="btnClear-help">
             <span>🗑️</span>
             Limpiar
           </button>
+        </div>
+        <div id="btnCalc-help" class="hint" style="text-align: center; margin-top: 0.5rem;">
+          Calcula tu finiquito y liquidación según la LFT
+        </div>
+        <div id="btnClear-help" class="hint" style="text-align: center; margin-top: 0.5rem;">
+          Limpia todos los campos y resultados
         </div>
       </section>
 
@@ -160,7 +200,7 @@
           </div>
         </div>
 
-        <div class="main-results">
+        <div class="main-results" aria-live="polite" role="region" aria-label="Resultados del cálculo de finiquito y liquidación">
           <div class="result-card finiquito-card">
             <div class="card-header">
               <h3>✅ FINIQUITO</h3>
