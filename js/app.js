@@ -8,8 +8,8 @@
  */
 
 // === Parámetros fijos (Ciudad Juárez) ===
-const SM_ZLFN = 419.88; // Salario Mínimo Diario Zona Libre Frontera Norte (editable)
-const SM_GENERAL = 248.93; // Salario Mínimo Diario General (referencia)
+const SM_ZLFN = 419.88;     // Salario Mínimo Diario Zona Libre Frontera Norte
+const SM_GENERAL = 248.93; // Salario Mínimo Diario Zona General (Referencia 2024 MXN)
 
 /**
  * Formatea un número como moneda mexicana
@@ -147,9 +147,16 @@ function calcular() {
  * @param {boolean} incluirPrimaVac - Si se incluye la prima vacacional
  */
 function actualizarLeyendaPrimaVac(incluirPrimaVac) {
+  // Leyenda en la sección de Proporcionales - solo visible cuando NO se incluye la prima vacacional
   const leyenda = document.getElementById('leyendaPrimaVac');
   if (leyenda) {
     leyenda.style.display = incluirPrimaVac ? 'none' : 'block';
+  }
+  
+  // Leyenda en el header
+  const leyendaHeader = document.getElementById('leyendaPrimaVacHeader');
+  if (leyendaHeader) {
+    leyendaHeader.style.display = incluirPrimaVac ? 'none' : 'inline';
   }
 }
 

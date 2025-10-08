@@ -741,7 +741,8 @@ input:valid {
   line-height: 1.5;
   padding: 1rem;
   margin-top: 1rem;
-  background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%); /* Fondo rojo/claro */
+  /* Utiliza las variables de advertencia */
+  background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%); /* Fondo rojo/claro (variación de danger) */
   color: var(--danger); /* Color de texto rojo */
   border-radius: var(--radius-md);
   border-left: 4px solid var(--danger); /* Borde lateral rojo */
